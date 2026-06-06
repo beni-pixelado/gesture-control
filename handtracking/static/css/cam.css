@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    background: #111;
+}
+
+.container {
+    position: relative;
+    width: 640px;
+    margin: 20px auto;
+}
+
+video,
+canvas {
+    border-radius: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+video {
+    transform: scaleX(-1);
+}
+
+canvas {
+    transform: scaleX(-1);
+    pointer-events: none;
+}
