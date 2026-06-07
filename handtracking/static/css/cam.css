@@ -6,12 +6,15 @@ body {
 .container {
     position: relative;
     width: 640px;
+    height: 480px;
     margin: 20px auto;
 }
 
 video,
 canvas {
     border-radius: 12px;
+    height: 480px;
+    width: 640px;
     position: absolute;
     top: 0;
     left: 0;
@@ -22,6 +25,6 @@ video {
 }
 
 canvas {
-    transform: scaleX(-1);
+    /* sem transform — as coordenadas já estão espelhadas no JS */
     pointer-events: none;
 }
