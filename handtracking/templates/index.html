@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUB</title>
+
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/mediapipe.css">
+</head>
+<body>
+
+    <div id="camera-layer">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="cursor"></div>
+
+    <main class="hub">
+
+        <h1>HUB</h1>
+
+        <div class="buttons">
+
+            <a class="hub-button" href="/page-a" data-gesture-click>
+                Página A
+            </a>
+
+            <a class="hub-button" href="/page-b" data-gesture-click>
+                Página B
+            </a>
+
+            <a class="hub-button" href="/tracker" data-gesture-click>
+                Tracker
+            </a>
+
+        </div>
+
+    </main>
+
+    <script type="module" src="/static/js/mediapipe-core.js"></script>
+    <script type="module" src="/static/js/gesture-system.js"></script>
+    <script type="module" src="/static/js/index.js"></script>
+
+</body>
+</html>

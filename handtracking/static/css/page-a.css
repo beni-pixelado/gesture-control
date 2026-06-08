@@ -1,0 +1,26 @@
+.content {
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 80px 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+.content h1 {
+    color: #1976d2;
+
+    font-size: 48px;
+}
+
+.content p {
+    font-size: 22px;
+
+    line-height: 1.8;
+
+    color: #1e293b;
+}

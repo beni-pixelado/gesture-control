@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    min-height: 100vh;
+
+    background: #f7faff;
+
+    font-family: Inter, Arial, sans-serif;
+}
+
+#camera-layer {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+}
+
+#video {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    width: 220px;
+
+    border-radius: 16px;
+
+    transform: scaleX(-1);
+
+    opacity: .25;
+}
+
+#canvas {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+}
+
+#cursor {
+    position: fixed;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    background: #1976d2;
+
+    box-shadow: 0 0 20px rgba(25,118,210,.4);
+
+    pointer-events: none;
+
+    z-index: 99999;
+
+    transform: translate(-50%, -50%);
+}
+
+.back-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    background: #1976d2;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 12px;
+
+    transition: .2s;
+}
+
+.back-button:hover {
+    background: #1565c0;
+}
+
+#cursor {
+    transition:
+        width .15s,
+        height .15s,
+        background .15s;
+}
+
+#cursor.pinching {
+    width: 16px;
+    height: 16px;
+}

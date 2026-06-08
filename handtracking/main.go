@@ -1,18 +1,34 @@
 package main
 
 import (
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
 
-	r.Static("/static", "./static")
+	router := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-	c.File("./static/index.html")
-})
+	router.LoadHTMLGlob("templates/*")
 
-	r.Run(":8000")
+	router.Static("/static", "./static")
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
+
+	router.GET("/page-a", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "page-a.html", nil)
+	})
+
+	router.GET("/page-b", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "page-b.html", nil)
+	})
+
+	router.GET("/tracker", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "tracker.html", nil)
+	})
+
+	router.Run(":8080")
 }

@@ -1,0 +1,42 @@
+#box {
+    position: absolute;
+
+    left: 300px;
+    top: 300px;
+
+    width: 120px;
+    height: 120px;
+
+    background: rgba(25,118,210,.12);
+
+    border: 2px solid #1976d2;
+
+    border-radius: 14px;
+
+    transition:
+        background .2s,
+        border .2s;
+}
+
+#handle {
+    position: absolute;
+
+    right: -10px;
+    bottom: -10px;
+
+    width: 22px;
+    height: 22px;
+
+    background: #1976d2;
+
+    border-radius: 50%;
+}
+
+.back-button {
+    position: absolute;
+
+    top: 30px;
+    left: 30px;
+
+    z-index: 1000;
+}

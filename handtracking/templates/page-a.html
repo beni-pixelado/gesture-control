@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página A</title>
+
+    <link rel="stylesheet" href="/static/css/page-a.css">
+    <link rel="stylesheet" href="/static/css/mediapipe.css">
+</head>
+<body>
+
+    <div id="camera-layer">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="cursor"></div>
+
+    <main class="content">
+
+        <a class="back-button" href="/" data-gesture-click>
+            Voltar
+        </a>
+
+        <h1>Página A</h1>
+
+        <p>
+            Esta é uma página de demonstração do HUB.
+            Todo o sistema é controlado por gestos utilizando
+            rastreamento de mãos em tempo real.
+        </p>
+
+    </main>
+
+    <script type="module" src="/static/js/mediapipe-core.js"></script>
+    <script type="module" src="/static/js/gesture-system.js"></script>
+    <script type="module" src="/static/js/page-a.js"></script>
+
+</body>
+</html>

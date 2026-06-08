@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+
+    <link rel="stylesheet" href="/static/css/tracker.css">
+    <link rel="stylesheet" href="/static/css/mediapipe.css">
+</head>
+<body>
+
+    <div id="camera-layer">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="cursor"></div>
+
+    <a class="back-button" href="/" data-gesture-click>
+        Voltar
+    </a>
+
+    <div id="box">
+        <div id="handle"></div>
+    </div>
+
+    <script type="module" src="/static/js/mediapipe-core.js"></script>
+    <script type="module" src="/static/js/gesture-system.js"></script>
+    <script type="module" src="/static/js/tracker.js"></script>
+
+</body>
+</html>
