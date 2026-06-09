@@ -9,6 +9,8 @@ const ctx = canvas.getContext("2d");
 
 let handLandmarker = null;
 
+let lastTime = 0;
+
 export const handState = {
     ready: false,
 
@@ -33,8 +35,8 @@ async function setupCamera() {
     const stream =
         await navigator.mediaDevices.getUserMedia({
             video: {
-                width: 580,
-                height: 360,
+                width: 640,
+                height: 480,
             },
         });
 
@@ -84,6 +86,7 @@ function drawBone(x1, y1, x2, y2) {
     ctx.stroke();
 }
 
+
 function loop() {
     requestAnimationFrame(loop);
 
@@ -118,6 +121,8 @@ function loop() {
         return;
     }
 
+    
+
     handState.detected = true;
 
     const points = hand.map(point => ({
@@ -125,7 +130,16 @@ function loop() {
         y: point.y * canvas.height,
     }));
 
-    handState.landmarks = points;
+    const center = points[0]; // pulso
+
+const scale = 0.3;
+
+const scaledPoints = points.map(p => ({
+    x: center.x + (p.x - center.x) * scale,
+    y: center.y + (p.y - center.y) * scale,
+}));
+
+    handState.landmarks = scaledPoints;
 
     const bones = [
         [0,1],[1,2],[2,3],[3,4],
@@ -173,6 +187,8 @@ function loop() {
             thumb,
             index
         ) < 40;
+
+    
 }
 
 async function init() {

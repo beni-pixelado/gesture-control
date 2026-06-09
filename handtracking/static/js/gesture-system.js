@@ -76,9 +76,8 @@ function updateClick() {
 }
 
 function loop() {
-
     requestAnimationFrame(loop);
-
+    
     if (!handState.ready) {
         return;
     }

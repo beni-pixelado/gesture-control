@@ -18,7 +18,7 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	router.GET("/page-a", func(c *gin.Context) {
+	router.GET("/PDA", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "page-a.html", nil)
 	})
 
@@ -30,5 +30,5 @@ func main() {
 		c.HTML(http.StatusOK, "tracker.html", nil)
 	})
 
-	router.Run(":8080")
+	router.Run(":8000")
 }
