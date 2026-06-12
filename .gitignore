@@ -30,3 +30,5 @@ coverage.html
  
 
 node_modules/
+.aider*
+.env
