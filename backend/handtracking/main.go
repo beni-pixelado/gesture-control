@@ -2,20 +2,33 @@ package main
 
 import (
 	"net/http"
+	"path/filepath"
+	"runtime"
 
 	"github.com/beni-pixelado/gesture-control/internal/database"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
 	database.Init()
 
 	router := gin.Default()
 
-	router.LoadHTMLGlob("handtracking/templates/*")
+	_, currentFile, _, _ := runtime.Caller(0)
+	
+	mainDir := filepath.Dir(currentFile)
 
-	router.Static("/frontend/static", "/workspaces/gesture-control/frontend/static")
+	templatesPath := filepath.Join(mainDir, "templates", "*")
 
+	staticPath := filepath.Join(mainDir, "..", "..", "frontend", "static")
+
+	
+	router.LoadHTMLGlob(templatesPath)
+
+	router.Static("/static", staticPath)
+
+	
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
@@ -32,7 +45,9 @@ func main() {
 		c.HTML(http.StatusOK, "tracker.html", nil)
 	})
 
+
 	if err := router.Run(":8000"); err != nil {
 		panic(err)
 	}
+
 }
