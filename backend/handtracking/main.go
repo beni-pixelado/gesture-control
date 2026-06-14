@@ -47,13 +47,17 @@ func main() {
 	// resultado final = "/neondb/auth/get-session"
 	proxy := httputil.NewSingleHostReverseProxy(target)
 	proxy.Director = func(req *http.Request) {
-		req.URL.Scheme = target.Scheme
-		req.URL.Host = target.Host
-		// Remove /api/auth e concatena com o path base do Neon
-		suffix := strings.TrimPrefix(req.URL.Path, "/api/auth")
-		req.URL.Path = target.Path + suffix
-		req.Host = target.Host
-	}
+    req.URL.Scheme = target.Scheme
+    req.URL.Host = target.Host
+
+    suffix := strings.TrimPrefix(req.URL.Path, "/api/auth")
+    req.URL.Path = strings.TrimRight(target.Path, "/") + suffix
+
+    // NÃO altere o Host
+    req.Host = target.Host
+
+    req.Header.Del("X-Forwarded-Host")
+}
 
 	// Todas as chamadas /api/auth/* são proxiadas para o Neon
 	r.Any("/api/auth/*path", func(c *gin.Context) {
@@ -62,8 +66,8 @@ func main() {
 
 	// SPA handler — serve o index.html do React
 	spaHandler := func(c *gin.Context) {
-		c.File("./backend/neon-login/dist/index.html")
-	}
+    c.File("./backend/neon-login/dist/index.html")
+}
 
 	// Rotas públicas do SPA
 	r.GET("/", spaHandler)
@@ -75,6 +79,21 @@ func main() {
 		protected.GET("/hub", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "index.html", nil)
 		})
+
+		r.Use(func(c *gin.Context) {
+	c.Next()
+
+	if c.Writer.Status() >= 300 && c.Writer.Status() < 400 {
+		println(
+			"REDIRECT:",
+			c.Request.Method,
+			c.Request.URL.Path,
+			"Location:",
+			c.Writer.Header().Get("Location"),
+		)
+	}
+})
+
 		protected.GET("/PDA", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "PDA.html", nil)
 		})

@@ -1,4 +1,3 @@
-
 import { NeonAuthUIProvider, AuthView } from '@neondatabase/auth/react/ui';
 import { authClient } from './auth';
 import './App.css';

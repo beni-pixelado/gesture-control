@@ -1,59 +1,78 @@
 package middleware
 
 import (
-	"context"
+	"encoding/json"
 	"net/http"
-	"time"
+	"os"
+	"strings"
 
-	"github.com/beni-pixelado/gesture-control/internal/database"
 	"github.com/gin-gonic/gin"
 )
 
-// AuthMiddleware verifica se o request tem um cookie de sessão válido.
-//
-// O better-auth (usado pelo neon-auth) armazena sessões na tabela "session"
-// do banco Neon com as colunas "token" e "expiresAt".
-// O cookie enviado pelo cliente se chama "better-auth.session_token".
-//
-// Fluxo:
-//  1. Lê o cookie
-//  2. Busca o token no banco
-//  3. Verifica se não expirou
-//  4. Autoriza ou redireciona para o login
+type SessionResponse struct {
+	User any `json:"user"`
+}
+
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// O nome do cookie é definido pelo better-auth internamente
-		token, err := c.Cookie("better-auth.session_token")
-		if err != nil || token == "" {
-			// Sem cookie — manda para o login
-			c.Redirect(http.StatusTemporaryRedirect, "/")
-			c.Abort()
+
+		authURL := strings.TrimRight(os.Getenv("VITE_NEON_AUTH_URL"), "/")
+		if authURL == "" {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"error": "VITE_NEON_AUTH_URL não configurado",
+			})
 			return
 		}
 
-		// Busca a sessão no banco pelo token
-		var expiresAt time.Time
-		err = database.DB.QueryRow(
-			context.Background(),
-			"SELECT \"expiresAt\" FROM session WHERE token = $1",
-			token,
-		).Scan(&expiresAt)
-
+		req, err := http.NewRequest(
+			http.MethodGet,
+			authURL+"/get-session",
+			nil,
+		)
 		if err != nil {
-			// Token não encontrado no banco
+			c.AbortWithStatus(http.StatusInternalServerError)
+			return
+		}
+
+		// Repassa todos os cookies do navegador
+		req.Header.Set("Cookie", c.Request.Header.Get("Cookie"))
+
+		// Repassa o User-Agent
+		req.Header.Set("User-Agent", c.Request.UserAgent())
+
+		client := &http.Client{}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			c.Redirect(http.StatusTemporaryRedirect, "/")
+			c.Abort()
+			return
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
 			c.Redirect(http.StatusTemporaryRedirect, "/")
 			c.Abort()
 			return
 		}
 
-		if time.Now().After(expiresAt) {
-			// Sessão expirada
+		var session SessionResponse
+
+		if err := json.NewDecoder(resp.Body).Decode(&session); err != nil {
 			c.Redirect(http.StatusTemporaryRedirect, "/")
 			c.Abort()
 			return
 		}
 
-		// Sessão válida — continua
+		if session.User == nil {
+			c.Redirect(http.StatusTemporaryRedirect, "/")
+			c.Abort()
+			return
+		}
+
+		// Disponibiliza o usuário para os handlers
+		c.Set("user", session.User)
+
 		c.Next()
 	}
 }
