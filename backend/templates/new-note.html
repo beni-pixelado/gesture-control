@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Nota</title>
+
+    <link rel="stylesheet" href="/static/css/mediapipe.css">
+    <link rel="stylesheet" href="/static/css/PDA/new-note.css">
+</head>
+<body>
+
+    <div id="camera-layer">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="cursor"></div>
+
+    <main class="content">
+
+        <a class="back-button" href="/PDA" data-gesture-click>
+            back
+        </a>
+
+        <h1>Nova Nota</h1>
+
+        {{if .Error}}
+        <p class="error-msg">{{.Error}}</p>
+        {{end}}
+
+        {{/* Usamos action/method nativos do HTML — sem JS para o submit.
+             O POST vai para /notes e o handler redireciona de volta ao /PDA. */}}
+        <form class="note-form" action="/notes" method="POST">
+
+            <div class="field">
+                <label for="title">Título</label>
+                <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    placeholder="Título da nota"
+                    autocomplete="off"
+                    required
+                />
+            </div>
+
+            <div class="field">
+                <label for="content">Conteúdo</label>
+                <textarea
+                    id="content"
+                    name="content"
+                    placeholder="Escreva aqui..."
+                    rows="8"
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="submit-button" data-gesture-click>
+                Salvar nota
+            </button>
+
+        </form>
+
+    </main>
+
+    <script type="module" src="/static/js/mediapipe-core.js"></script>
+    <script type="module" src="/static/js/gesture-system.js"></script>
+
+</body>
+</html>

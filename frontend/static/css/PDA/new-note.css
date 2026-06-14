@@ -1,0 +1,89 @@
+.body {
+    overflow-y: hidden;
+    font-family: Inter, Arial, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+.content {
+    max-width: 700px;
+    margin: auto;
+    padding: 80px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+ 
+.content h1 {
+    color: #1976d2;
+    font-size: 48px;
+    margin: 0;
+}
+ 
+/* Mensagem de erro retornada pelo handler em caso de falha */
+.error-msg {
+    color: #c62828;
+    background: #ffebee;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+}
+ 
+.note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+ 
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+ 
+.field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+ 
+.field input,
+.field textarea {
+    padding: 14px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 18px;
+    font-family: Inter, Arial, sans-serif;
+    color: #1e293b;
+    background: #fff;
+    outline: none;
+    resize: vertical;
+    transition: border-color .2s;
+}
+ 
+.field input:focus,
+.field textarea:focus {
+    border-color: #1976d2;
+}
+ 
+.submit-button {
+    align-self: flex-start;
+    padding: 14px 28px;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: Inter, Arial, sans-serif;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+}
+ 
+.submit-button:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+}

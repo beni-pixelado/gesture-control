@@ -6,7 +6,7 @@
     <title>PDA</title>
 
     <link rel="stylesheet" href="/static/css/mediapipe.css">
-    <link rel="stylesheet" href="/static/css/PDA.css">
+    <link rel="stylesheet" href="/static/css/PDA/PDA.css">
 </head>
 <body>
 
@@ -25,9 +25,23 @@
 
         <h1>Personal Digital Notes</h1>
 
-        <p>
-            Personal Digital Notes (PDA) is a tool that allows you to create and manage notes in a digital way.
-        </p>
+        <a class="create-button" href="/notes/new" data-gesture-click>
+            + Nova nota
+        </a>
+
+        {{/* Itera sobre as notas passadas pelo handler PDAPage */}}
+        {{if .Notes}}
+            <div class="notes-list">
+                {{range .Notes}}
+                <div class="note-card">
+                    <h2 class="note-title">{{.Title}}</h2>
+                    <p class="note-content">{{.Content}}</p>
+                </div>
+                {{end}}
+            </div>
+        {{else}}
+            <p class="empty-msg">Nenhuma nota ainda. Crie a primeira!</p>
+        {{end}}
 
     </main>
 
